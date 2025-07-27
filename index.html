@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #qrcode {
+      margin-top: 20px;
+    }
+    #download-btn {
+      display: none;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+  <input type="text" id="urlInput" placeholder="Masukkan URL di sini..." />
+  <br>
+  <button onclick="generateQRCode()">Generate QR Code</button>
+  <div id="qrcode"></div>
+  <a id="download-btn" download="qrcode.png">Download QR Code</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script>
+    function generateQRCode() {
+      const url = document.getElementById(\"urlInput\").value;
+      const qrcodeContainer = document.getElementById(\"qrcode\");
+      const downloadBtn = document.getElementById(\"download-btn\");
+
+      if (!url) {
+        alert(\"Mohon masukkan URL terlebih dahulu.\");
+        return;
+      }
+
+      qrcodeContainer.innerHTML = \"\";
+
+      new QRCode(qrcodeContainer, {
+        text: url,
+        width: 256,
+        height: 256,
+      });
+
+      setTimeout(() => {
+        const img = qrcodeContainer.querySelector(\"img\");
+        if (img) {
+          downloadBtn.href = img.src;
+          downloadBtn.style.display = \"inline-block\";
+        }
+      }, 500);
+    }
+  </script>
+</body>
+</html>
